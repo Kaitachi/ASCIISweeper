@@ -26,6 +26,7 @@ kernel = [[1, 1, 1],
           [1, 1, 1]]
 
 
+
 # Seeds map with mines
 def seed(num_mines):
     placed = min(max(num_mines, rows*cols*0.1), rows*cols*0.75)
@@ -45,28 +46,30 @@ def seed(num_mines):
     #print mines
 
 
+
 # Print current state
 def draw_map(finished = False):
     #print guess
 
-    print
-    print "      ",
+    print()
+    print("      ", end=' ')
 
     for col in range(len(guess[0])):
-        print "[%3u]"%(col),
+        print("[%3u]"%(col), end=' ')
 
-    print
+    print()
 
     for row in range(len(guess)):
-        print "[%3u]  "%(row),
+        print("[%3u]  "%(row), end=' ')
 
         for col in range(len(guess[0])):
-            print " %s   "%(guess[row][col] if not finished else x_ray(row, col)),
+            print(" %s   "%(guess[row][col] if not finished else x_ray(row, col)), end=' ')
 
-        print
+        print()
 
-    print
-    print
+    print()
+    print()
+
 
 
 # Ask for next tile to reveal, returns valid choice
@@ -116,8 +119,6 @@ def project(row, col):
             if m in range(rows) and n in range(cols):
                 sum += kernel[k_row][k_col] * mines[m][n]
 
-
-
     if sum != 0:
         guess[row][col] = str(sum)
     else:
@@ -139,7 +140,7 @@ def project(row, col):
 
 # Reveals tile at specified position
 def reveal(row, col):
-    print "Revealing tile..."
+    print("Revealing tile...")
 
     found = (mines[row][col] != 0)
 
@@ -155,12 +156,13 @@ def reveal(row, col):
 # Flags/unflags tile at specified location
 def flag(row, col):
     if guess[row][col] == tiles["hidden"]:
-        print "Flagging tile..."
+        print("Flagging tile...")
         guess[row][col] = tiles["flagged"]
 
     elif guess[row][col] == tiles["flagged"]:
-        print "Unflagging tile..."
+        print("Unflagging tile...")
         guess[row][col] = tiles["hidden"]
+
 
 
 
@@ -172,10 +174,10 @@ seed(int(input("Enter number of desired mines for grid: ")))
 while alive and sum(row.count(tiles["hidden"]) for row in guess):
     draw_map()
 
-    flagging = raw_input("Would you like to set/unset a flag? (y/n) ")
+    flagging = input("Would you like to set/unset a flag? (y/n) ")
 
     row, col = ask()
-    print "Selected " + str((row, col))
+    print("Selected " + str((row, col)))
 
     if flagging == "y":
         flag(row, col)
@@ -187,6 +189,6 @@ while alive and sum(row.count(tiles["hidden"]) for row in guess):
 draw_map(True)
 
 if not alive:
-    print "Whoops! There was a mine... =("
+    print("Whoops! There was a mine... =(")
 else:
-    print "Congrats, you won! =D"
+    print("Congrats, you won! =D")
